@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #F8FAFC;
+    color: #0F172A;
+    -webkit-font-smoothing: antialiased;
+    /* subtle cool gradient wash — calm, focused learning surface */
+    background-image:
+      radial-gradient(1200px 600px at 100% -10%, rgba(79,70,229,0.06), transparent 60%),
+      radial-gradient(1000px 500px at -10% 110%, rgba(244,98,58,0.05), transparent 55%);
+    background-attachment: fixed;
+  }
+  h1, h2, h3, h4, h5 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-optical-sizing: auto;
+    letter-spacing: -0.01em;
+    color: #0F172A;
+  }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: #F1F5F9; }
+  ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 6px; border: 2px solid #F1F5F9; }
+  ::-webkit-scrollbar-thumb:hover { background: #4F46E5; }
+  ::selection { background: #C7D2FE; color: #1E1B4B; }
+}
+
+@layer components {
+  /* Primary = indigo (trust/focus, the learning action color) */
+  .btn-primary {
+    @apply bg-indigo-500 hover:bg-indigo-600 text-white font-medium px-5 py-2.5 rounded-lg transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed font-body shadow-sm;
+  }
+  .btn-ghost {
+    @apply bg-white hover:bg-cream-100 text-ink-700 font-medium px-5 py-2.5 rounded-lg transition-all duration-200 font-body border border-cream-400;
+  }
+  /* Accent = coral (warm, encouraging secondary CTA) */
+  .btn-accent {
+    @apply bg-coral-500 hover:bg-coral-600 text-white font-medium px-5 py-2.5 rounded-lg transition-all duration-200 active:scale-[0.98] font-body shadow-sm;
+  }
+  .card {
+    @apply bg-white border border-cream-300 rounded-xl p-5 shadow-paper;
+  }
+  .input {
+    @apply bg-white border border-cream-400 text-ink-900 placeholder-ink-400 rounded-lg px-4 py-2.5 w-full focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all font-body;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  .badge-blue { @apply badge bg-indigo-50 text-indigo-600; }
+  .badge-green { @apply badge bg-emerald-50 text-emerald-600; }
+  .badge-orange { @apply badge bg-coral-50 text-coral-600; }
+  .badge-red { @apply badge bg-red-50 text-red-600; }
+  .badge-purple { @apply badge bg-indigo-100 text-indigo-700; }
+
+  .eyebrow {
+    @apply font-mono text-xs uppercase tracking-[0.18em] text-indigo-500;
+  }
+}
+
+/* Prose styles for AI markdown — tuned for the light EdTech surface */
+.ai-response h1, .ai-response h2, .ai-response h3 {
+  font-family: 'Fraunces', Georgia, serif;
+  color: #0F172A;
+  margin: 0.75rem 0 0.4rem;
+}
+.ai-response h1 { font-size: 1.2rem; }
+.ai-response h2 { font-size: 1.1rem; }
+.ai-response h3 { font-size: 1rem; }
+.ai-response p { margin: 0.4rem 0; line-height: 1.65; }
+.ai-response ul, .ai-response ol { margin: 0.5rem 0; padding-left: 1.5rem; }
+.ai-response li { margin: 0.25rem 0; }
+.ai-response code {
+  background: #EEF2FF;
+  border: 1px solid #C7D2FE;
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  color: #4338CA;
+}
+.ai-response pre {
+  background: #0F172A;
+  border: 1px solid #1E293B;
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 0.75rem 0;
+}
+.ai-response pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #E2E8F0;
+}
+.ai-response strong { color: #0F172A; font-weight: 600; }
+.ai-response blockquote {
+  border-left: 3px solid #4F46E5;
+  padding-left: 1rem;
+  color: #475569;
+  margin: 0.5rem 0;
+}
+
+video:focus { outline: none; }
+
+/* ── Theme remap ─────────────────────────────────────────────
+   App was authored for a dark theme using slate-* text utilities as
+   muted body text. Remap to the cool ink scale so all pages read
+   correctly on the light surface without editing every file. */
+.text-slate-100 { color: #0F172A !important; }
+.text-slate-200 { color: #0F172A !important; }
+.text-slate-300 { color: #1E293B !important; }
+.text-slate-400 { color: #475569 !important; }
+.text-slate-500 { color: #64748B !important; }
+.text-slate-600 { color: #64748B !important; }
+.hover\:text-slate-200:hover { color: #0F172A !important; }
+.hover\:text-slate-300:hover { color: #1E293B !important; }
+.hover\:text-white:hover { color: #0F172A !important; }
+/* ── text-white safety net ───────────────────────────────────
+   Headings/labels authored as text-white for the old dark theme were
+   invisible on the light surface. Strategy: make text-white render dark
+   by DEFAULT, and only force white when the SAME element also carries a
+   colored/dark background utility, or sits inside a dark container.
+   IMPORTANT: no whitening selector below may be a bare ".text-white",
+   or PostCSS merges it and re-whitens everything. */
+.text-white { color: #0F172A; }
+
+/* same-element colored background => white text (buttons, chips, tiles) */
+.bg-indigo-400.text-white, .bg-indigo-500.text-white, .bg-indigo-600.text-white, .bg-indigo-700.text-white, .bg-indigo-900.text-white,
+.bg-coral-400.text-white, .bg-coral-500.text-white, .bg-coral-600.text-white,
+.bg-clay-400.text-white, .bg-clay-500.text-white, .bg-clay-600.text-white,
+.bg-emerald-400.text-white, .bg-emerald-500.text-white, .bg-emerald-600.text-white,
+.bg-sage-400.text-white, .bg-sage-500.text-white, .bg-sage-600.text-white,
+.bg-gold-500.text-white, .bg-gold-600.text-white,
+.bg-ink-700.text-white, .bg-ink-900.text-white,
+.bg-brand-400.text-white, .bg-brand-500.text-white, .bg-brand-600.text-white,
+.bg-red-500.text-white, .bg-red-600.text-white {
+  color: #ffffff;
+}
+
+/* primary/accent buttons are always on a colored fill => white label */
+.btn-primary, .btn-accent { color: #ffffff; }
+
+/* descendants of a dark/colored container stay white */
+[class*="bg-ink-9"] .text-white, [class*="bg-ink-7"] .text-white,
+[class*="bg-indigo-5"] .text-white, [class*="bg-indigo-6"] .text-white, [class*="bg-indigo-9"] .text-white,
+[class*="bg-coral-5"] .text-white, [class*="bg-coral-6"] .text-white,
+[class*="bg-clay-5"] .text-white, [class*="bg-clay-6"] .text-white,
+[class*="bg-brand-5"] .text-white, [class*="bg-brand-6"] .text-white,
+[class*="bg-emerald-5"] .text-white, [class*="bg-sage-5"] .text-white {
+  color: #ffffff;
+}
+
+/* svg icons inside colored chips/avatars stay white */
+[class*="bg-indigo"] svg.text-white, [class*="bg-coral"] svg.text-white,
+[class*="bg-clay"] svg.text-white, [class*="bg-emerald"] svg.text-white,
+[class*="bg-sage"] svg.text-white, [class*="bg-ink"] svg.text-white,
+[class*="bg-brand"] svg.text-white, [class*="bg-gold"] svg.text-white {
+  color: #ffffff;
+}

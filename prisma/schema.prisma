@@ -1,0 +1,152 @@
+// Adolescence — Prisma schema (Postgres, Vercel-ready)
+// Ported from the FastAPI/SQLAlchemy models.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  admin
+  student
+}
+
+enum DifficultyLevel {
+  beginner
+  intermediate
+  advanced
+}
+
+enum QuestionType {
+  multiple_choice
+  true_false
+  fill_blank
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  name        String
+  email       String    @unique
+  password    String
+  role        UserRole  @default(student)
+  isActive    Boolean   @default(true) @map("is_active")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  lessons     Lesson[]               @relation("LessonCreator")
+  progress    Progress[]
+  chats       AIChat[]
+  submissions AssignmentSubmission[]
+
+  @@map("users")
+}
+
+model Lesson {
+  id                Int             @id @default(autoincrement())
+  title             String
+  description       String?
+  content           String?
+  videoUrl          String?         @map("video_url")
+  videoFilename     String?         @map("video_filename")
+  pdfUrl            String?         @map("pdf_url")
+  pdfFilename       String?         @map("pdf_filename")
+  transcript        String?
+  category          String?
+  difficulty        DifficultyLevel @default(beginner)
+  estimatedDuration Int?            @map("estimated_duration")
+  isPublished       Boolean         @default(false) @map("is_published")
+  createdBy         Int?            @map("created_by")
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+
+  creator     User?        @relation("LessonCreator", fields: [createdBy], references: [id])
+  quizzes     Quiz[]
+  progress    Progress[]
+  chats       AIChat[]
+  assignments Assignment[]
+
+  @@map("lessons")
+}
+
+model Quiz {
+  id            Int          @id @default(autoincrement())
+  lessonId      Int          @map("lesson_id")
+  question      String
+  type          QuestionType @default(multiple_choice)
+  options       String?      // JSON string
+  correctAnswer String?      @map("correct_answer")
+  explanation   String?
+  createdAt     DateTime     @default(now()) @map("created_at")
+
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@map("quizzes")
+}
+
+model Progress {
+  id           Int      @id @default(autoincrement())
+  userId       Int      @map("user_id")
+  lessonId     Int      @map("lesson_id")
+  completed    Boolean  @default(false)
+  score        Float    @default(0)
+  watchTime    Int      @default(0) @map("watch_time")
+  lastPosition Int      @default(0) @map("last_position")
+  quizAttempts Int      @default(0) @map("quiz_attempts")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+  @@map("progress")
+}
+
+model AIChat {
+  id           Int      @id @default(autoincrement())
+  userId       Int      @map("user_id")
+  lessonId     Int?     @map("lesson_id")
+  sessionId    String?  @map("session_id")
+  message      String?
+  response     String?
+  learningMode String?  @default("explain") @map("learning_mode")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson Lesson? @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+
+  @@map("ai_chats")
+}
+
+model Assignment {
+  id           Int      @id @default(autoincrement())
+  lessonId     Int      @map("lesson_id")
+  title        String?
+  instructions String?
+  deadline     DateTime?
+  createdBy    Int?     @map("created_by")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  lesson      Lesson                 @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  submissions AssignmentSubmission[]
+
+  @@map("assignments")
+}
+
+model AssignmentSubmission {
+  id             Int      @id @default(autoincrement())
+  assignmentId   Int      @map("assignment_id")
+  studentId      Int      @map("student_id")
+  submissionText String?  @map("submission_text")
+  fileUrl        String?  @map("file_url")
+  aiFeedback     String?  @map("ai_feedback")
+  score          Float?
+  submittedAt    DateTime @default(now()) @map("submitted_at")
+
+  assignment Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  student    User       @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@map("assignment_submissions")
+}
