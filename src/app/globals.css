@@ -160,3 +160,54 @@ video:focus { outline: none; }
 [class*="bg-brand"] svg.text-white, [class*="bg-gold"] svg.text-white {
   color: #ffffff;
 }
+
+/* ── Mobile-first refinements ────────────────────────────────
+   The app is used inside a WebView shell on phones, so these
+   target touch behaviour rather than pointer behaviour. */
+
+/* Never allow sideways scrolling on a phone. */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+}
+
+/* Remove the grey flash when tapping links/buttons. */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* iOS zooms the page when focusing an input whose font is under 16px.
+   Force 16px on small screens; desktop keeps the tighter sizing. */
+@media (max-width: 640px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+
+  /* Comfortable, thumb-sized controls */
+  .btn-primary, .btn-ghost, .btn-accent {
+    @apply py-3 px-5;
+  }
+  .input {
+    @apply py-3;
+  }
+  .card {
+    @apply p-4 rounded-xl;
+  }
+
+  /* Headings scale down so they don't dominate a small screen */
+  h1 { font-size: 1.5rem; line-height: 1.25; }
+  h2 { font-size: 1.25rem; }
+}
+
+/* Give tappable rows a pressed state instead of a hover state. */
+@media (hover: none) {
+  .card:active { transform: scale(0.99); }
+  a, button { transition: transform 0.12s ease; }
+}
+
+/* Let long lesson content wrap instead of forcing horizontal scroll. */
+.ai-response pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+}

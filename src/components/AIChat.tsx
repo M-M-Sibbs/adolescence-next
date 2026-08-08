@@ -125,7 +125,7 @@ export default function AIChat({
                 <button
                   key={s}
                   onClick={() => sendMessage(s)}
-                  className="text-xs bg-surface-700 hover:bg-surface-600 border border-surface-500 text-slate-300 hover:text-ink-900 rounded-full px-3 py-1.5 transition-all"
+                  className="text-xs bg-cream-100 active:bg-cream-200 border border-cream-300 text-ink-700 rounded-full px-3.5 py-2 transition-all active:scale-95"
                 >
                   {s}
                 </button>
@@ -148,7 +148,7 @@ export default function AIChat({
               )}
             </div>
             <div
-              className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${
+              className={`max-w-[88%] sm:max-w-[85%] rounded-2xl px-4 py-3 text-[15px] sm:text-sm leading-relaxed ${
                 msg.role === "user"
                   ? "bg-indigo-500 text-white rounded-tr-sm"
                   : msg.error
@@ -190,17 +190,17 @@ export default function AIChat({
             onKeyDown={handleKey}
             placeholder="Ask your AI tutor…"
             rows={1}
-            className="input resize-none flex-1 text-sm py-2.5 max-h-28"
+            className="input resize-none flex-1 text-base sm:text-sm py-3 max-h-28"
           />
           <button
             onClick={() => sendMessage()}
             disabled={!input.trim() || loading}
-            className="btn-primary px-3 py-2.5 flex-shrink-0"
+            className="btn-primary px-4 py-3 flex-shrink-0 active:scale-95"
           >
             <Send size={15} />
           </button>
         </div>
-        <p className="text-xs text-slate-600 mt-1.5 text-center">
+        <p className="hidden sm:block text-xs text-ink-400 mt-1.5 text-center">
           Enter to send · Shift+Enter for newline
         </p>
       </div>

@@ -32,9 +32,9 @@ export default function LessonsPage() {
   });
 
   return (
-    <div className="p-6 max-w-6xl mx-auto animate-fade-in">
+    <div className="px-4 py-5 sm:p-6 max-w-6xl mx-auto animate-fade-in">
       <div className="mb-7">
-        <h1 className="font-display text-3xl font-bold text-ink-900 mb-1">Lessons</h1>
+        <h1 className="font-display text-2xl sm:text-3xl font-bold text-ink-900 mb-1">Lessons</h1>
         <p className="text-slate-400 text-sm">Select a lesson to start learning with your AI tutor</p>
       </div>
 

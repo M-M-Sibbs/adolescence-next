@@ -35,9 +35,9 @@ export default function StudentDashboard() {
   const greeting = hour < 12 ? "morning" : hour < 17 ? "afternoon" : "evening";
 
   return (
-    <div className="p-6 max-w-6xl mx-auto animate-fade-in">
+    <div className="px-4 py-5 sm:p-6 max-w-6xl mx-auto animate-fade-in">
       <div className="mb-8">
-        <h1 className="font-display text-3xl font-bold text-ink-900">
+        <h1 className="font-display text-2xl sm:text-3xl font-bold text-ink-900">
           Good {greeting}, <span className="text-indigo-500">{user?.name?.split(" ")[0]}</span> 👋
         </h1>
         <p className="text-slate-400 mt-1">Ready to continue your learning journey?</p>
@@ -45,7 +45,7 @@ export default function StudentDashboard() {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {statCards.map(({ label, value, icon: Icon, color, bg }) => (
-          <div key={label} className="card flex items-center gap-4">
+          <div key={label} className="card flex items-center gap-3 sm:gap-4">
             <div className={`w-11 h-11 rounded-xl ${bg} flex items-center justify-center flex-shrink-0`}>
               <Icon size={20} className={color} />
             </div>
@@ -57,9 +57,9 @@ export default function StudentDashboard() {
         ))}
       </div>
 
-      <div className="card bg-indigo-50 border-indigo-100 mb-8 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-indigo-500 flex items-center justify-center">
+      <div className="card bg-indigo-50 border-indigo-100 mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex items-center gap-3.5 min-w-0">
+          <div className="w-12 h-12 rounded-xl bg-indigo-500 flex items-center justify-center flex-shrink-0">
             <Sparkles size={22} className="text-white" />
           </div>
           <div>
@@ -67,7 +67,7 @@ export default function StudentDashboard() {
             <p className="text-slate-400 text-sm">Open any lesson and chat with the margin tutor</p>
           </div>
         </div>
-        <Link href="/lessons" className="btn-primary flex items-center gap-2 whitespace-nowrap">
+        <Link href="/lessons" className="btn-primary flex items-center justify-center gap-2 whitespace-nowrap w-full sm:w-auto">
           Browse Lessons <ArrowRight size={15} />
         </Link>
       </div>

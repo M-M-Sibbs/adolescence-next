@@ -117,7 +117,7 @@ export default function LessonViewer() {
     );
 
   return (
-    <div className="p-5 max-w-7xl mx-auto animate-fade-in">
+    <div className="px-4 py-4 sm:p-5 max-w-7xl mx-auto animate-fade-in">
       <div className="flex flex-wrap items-start gap-4 mb-5">
         <Link href="/lessons" className="flex items-center gap-1.5 text-slate-400 hover:text-ink-900 text-sm transition-colors mt-0.5">
           <ArrowLeft size={16} /> Back
@@ -132,7 +132,7 @@ export default function LessonViewer() {
               </span>
             )}
           </div>
-          <h1 className="font-display text-2xl font-bold text-ink-900 leading-tight">{lesson.title}</h1>
+          <h1 className="font-display text-xl sm:text-2xl font-bold text-ink-900 leading-tight">{lesson.title}</h1>
           <div className="flex items-center gap-4 mt-1 text-xs text-slate-500">
             <span className="flex items-center gap-1"><Clock size={12} /> {lesson.estimated_duration} min</span>
             <span className="flex items-center gap-1"><HelpCircle size={12} /> {quizzes.length} questions</span>
@@ -140,7 +140,7 @@ export default function LessonViewer() {
           </div>
         </div>
         {!completed && (
-          <button onClick={markComplete} disabled={markingDone} className="btn-ghost text-sm flex items-center gap-2">
+          <button onClick={markComplete} disabled={markingDone} className="btn-ghost text-sm flex items-center justify-center gap-2 w-full sm:w-auto py-3 sm:py-2.5">
             {markingDone ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle size={14} />}
             Mark Complete
           </button>
@@ -171,7 +171,7 @@ export default function LessonViewer() {
                 <button
                   key={tid}
                   onClick={() => setTab(tid)}
-                  className={`flex items-center gap-2 px-5 py-3 text-sm font-medium transition-all border-b-2 -mb-px ${
+                  className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 sm:px-5 py-3.5 text-sm font-medium transition-all border-b-2 -mb-px active:scale-95 ${
                     tab === tid
                       ? "border-indigo-500 text-indigo-500 bg-indigo-50"
                       : "border-transparent text-slate-400 hover:text-slate-200 hover:bg-surface-700"
@@ -214,7 +214,7 @@ export default function LessonViewer() {
                           <p className="text-xs text-slate-500">Downloadable reference material</p>
                         </div>
                       </div>
-                      <a href={lesson.pdf_url} target="_blank" rel="noopener noreferrer" className="btn-ghost text-sm flex items-center gap-2">
+                      <a href={lesson.pdf_url} target="_blank" rel="noopener noreferrer" className="btn-ghost text-sm flex items-center justify-center gap-2 w-full sm:w-auto py-3 sm:py-2.5">
                         <Download size={14} /> Download
                       </a>
                     </div>
@@ -227,7 +227,7 @@ export default function LessonViewer() {
 
               {tab === "ai" && (
                 <>
-                  <div className="xl:hidden h-[520px]">
+                  <div className="xl:hidden h-[calc(100vh-19rem)] min-h-[380px]">
                     <AIChat lessonId={lessonIdNum} lessonTitle={lesson.title} />
                   </div>
                   <div className="hidden xl:block text-center py-8 text-slate-500 text-sm">

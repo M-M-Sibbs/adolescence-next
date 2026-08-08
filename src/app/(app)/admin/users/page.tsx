@@ -51,9 +51,9 @@ export default function AdminUsers() {
   const students = filtered.filter((u) => u.role === "student");
 
   return (
-    <div className="p-6 max-w-5xl mx-auto animate-fade-in">
+    <div className="px-4 py-5 sm:p-6 max-w-5xl mx-auto animate-fade-in">
       <div className="mb-7">
-        <h1 className="font-display text-3xl font-bold text-ink-900">Users</h1>
+        <h1 className="font-display text-2xl sm:text-3xl font-bold text-ink-900">Users</h1>
         <p className="text-slate-400 text-sm mt-1">{users.length} registered users</p>
       </div>
 

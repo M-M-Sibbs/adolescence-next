@@ -28,10 +28,10 @@ export default function AdminDashboard() {
       : 0;
 
   return (
-    <div className="p-6 max-w-6xl mx-auto animate-fade-in">
+    <div className="px-4 py-5 sm:p-6 max-w-6xl mx-auto animate-fade-in">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="font-display text-3xl font-bold text-ink-900">Admin Dashboard</h1>
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-ink-900">Admin Dashboard</h1>
           <p className="text-slate-400 text-sm mt-1">Platform overview and analytics</p>
         </div>
         <Link href="/admin/lessons" className="btn-primary flex items-center gap-2">

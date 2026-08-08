@@ -134,10 +134,10 @@ export default function AdminLessons() {
 
   return (
     <>
-      <div className="p-6 max-w-6xl mx-auto animate-fade-in">
+      <div className="px-4 py-5 sm:p-6 max-w-6xl mx-auto animate-fade-in">
         <div className="flex items-center justify-between mb-7">
           <div>
-            <h1 className="font-display text-3xl font-bold text-ink-900">Lessons</h1>
+            <h1 className="font-display text-2xl sm:text-3xl font-bold text-ink-900">Lessons</h1>
             <p className="text-slate-400 text-sm mt-1">{lessons.length} lesson{lessons.length !== 1 ? "s" : ""} total</p>
           </div>
           <button onClick={openCreate} className="btn-primary flex items-center gap-2">
