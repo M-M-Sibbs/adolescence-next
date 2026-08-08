@@ -3,19 +3,41 @@ import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-async function main() {
-  const adminEmail = "admin@adolescence.app";
-  const existing = await prisma.user.findUnique({ where: { email: adminEmail } });
-  if (!existing) {
-    const admin = await prisma.user.create({
-      data: {
-        name: "Admin",
-        email: adminEmail,
-        password: await bcrypt.hash("admin123", 10),
-        role: "admin",
-      },
-    });
+// Admin credentials. Override at run time with env vars if you prefer not to
+// keep them in the repo, e.g.:
+//   ADMIN_EMAIL=you@x.com ADMIN_PASSWORD=secret npm run db:seed
+const ADMIN_NAME = process.env.ADMIN_NAME || "Wilson Madzoka";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "wilson@adolescence.app";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "change-me";
 
+async function main() {
+  const hashed = await bcrypt.hash(ADMIN_PASSWORD, 10);
+
+  // Upsert so re-running the seed updates the password instead of failing.
+  const admin = await prisma.user.upsert({
+    where: { email: ADMIN_EMAIL },
+    update: { name: ADMIN_NAME, password: hashed, role: "admin" },
+    create: {
+      name: ADMIN_NAME,
+      email: ADMIN_EMAIL,
+      password: hashed,
+      role: "admin",
+    },
+  });
+  console.log(`Admin ready: ${admin.email}`);
+
+  // Remove the old demo account if it is still around.
+  const demo = await prisma.user.findUnique({
+    where: { email: "admin@adolescence.app" },
+  });
+  if (demo && demo.email !== ADMIN_EMAIL) {
+    await prisma.user.delete({ where: { id: demo.id } });
+    console.log("Removed old demo admin account.");
+  }
+
+  // Sample lessons, only if the library is empty.
+  const lessonCount = await prisma.lesson.count();
+  if (lessonCount === 0) {
     await prisma.lesson.createMany({
       data: [
         {
@@ -42,9 +64,7 @@ async function main() {
         },
       ],
     });
-    console.log("Seeded admin + 2 lessons.");
-  } else {
-    console.log("Admin already exists, skipping seed.");
+    console.log("Seeded 2 sample lessons.");
   }
 }
 

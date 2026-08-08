@@ -52,10 +52,6 @@ export default function LoginPage() {
             </div>
           )}
 
-          <div className="bg-indigo-50 border border-indigo-100 rounded-lg px-4 py-3 mb-5 text-xs text-indigo-600">
-            <strong>Demo Admin:</strong> admin@adolescence.app / admin123
-          </div>
-
           <form onSubmit={submit} className="space-y-4">
             <div>
               <label className="text-sm text-slate-300 font-medium mb-1.5 block">Email</label>
